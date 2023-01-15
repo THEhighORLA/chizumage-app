@@ -1,23 +1,29 @@
 <template>
   <MqResponsive target="md-">
-      <MobileMenu></MobileMenu>
+    <MobileMenu></MobileMenu>
   </MqResponsive>
   <MqResponsive target="lg+">
     <NormalMenu></NormalMenu>
   </MqResponsive>
+  <BaseFooter></BaseFooter>
 </template>
 
 <script>
+//External Libs 
+import {MqResponsive} from 'vue3-mq';
+
+//Components
 import MobileMenu from './MobileMenu.vue';
 import NormalMenu from './NormalMenu.vue';
-import {MqResponsive} from 'vue3-mq';
+import BaseFooter from './BaseFooter.vue';
 
 export default {
   name: 'SideBar',
   components:{
+    MqResponsive,
     MobileMenu,
     NormalMenu,
-    MqResponsive
+    BaseFooter
   },
   props: {
     msg: String
