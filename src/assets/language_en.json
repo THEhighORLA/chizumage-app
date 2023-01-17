@@ -1,4 +1,9 @@
 {
-  "hello": "Hello",
-  "goodbye": "Goodbye"
+  "general_services":"Services",
+  "general_service":"Service",
+  "change_theme": "change Theme",
+  "change_language": "Change Language",
+  "goodbye": "Goodbye",
+  "operations_transactions_title":"Operations and Transactions",
+  "current_language":"EN"
 }

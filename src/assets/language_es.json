@@ -1,4 +1,9 @@
 {
-  "hello": "Hola",
-  "goodbye": "Adios"
+  "general_services":"Servicios",
+  "general_service":"Servicio",
+  "change_theme": "Cambiar Tema",
+  "change_language": "Cambiar Idioma",
+  "goodbye": "Adios",
+  "operations_transactions_title":"Operaciones y Transacciones",
+  "current_language":"ES"
 }

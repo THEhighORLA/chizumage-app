@@ -16,11 +16,12 @@
             <v-divider></v-divider>
 
             <v-list density="compact" nav>
-            <v-list-item prepend-icon="mdi-folder" title="My Files" value="myfiles"></v-list-item>
-            <v-list-item prepend-icon="mdi-account-multiple" title="Shared with me" value="shared"></v-list-item>
-            <v-list-item prepend-icon="mdi-star" title="Starred" value="starred"></v-list-item>
-            <v-list-item :prepend-icon="getThemeIcon" value='Change Theme'>
-            </v-list-item>
+                <v-list-item v-for="op in menuOptions"
+                    :key="op.id"
+                    :prepend-icon="op.icon"
+                    :title="titleHandler(op)"
+                    @click="op.clickHandler()"
+                ></v-list-item>
             </v-list>
         </v-navigation-drawer>
 
@@ -33,24 +34,30 @@
 
 <script>
     import ServiceHandler from './ServiceHandler.vue';
-    import { useTheme } from 'vuetify/lib/framework.mjs';
+    
     export default {
+        props:{
+            menuOptions:{
+                type:Array,
+                default:()=>([])
+            }
+        },
         components:{
             ServiceHandler
         },
         computed:{
-            getThemeIcon(){
-                return useTheme().global.current.value.dark ? 'mdi-moon-waxing-crescent' : 'mdi-white-balance-sunny'
+            $t() {
+                return this.$i18n.t
             }
         },
-        setup () {
-            const theme = useTheme()
-
-            return {
-                theme,
-                toggleTheme: () => theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
+        methods:{
+            toggleLocation(){
+                this.$i18n.locale = this.$i18n.locale =="en"? "es":"en";
+            },
+            titleHandler(op){
+                return typeof op.title == 'function'?op.title():op.title
             }
-        }
+        },
     }
 </script>
 

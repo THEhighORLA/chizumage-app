@@ -71,4 +71,5 @@ export default {
 .col-12{
   grid-column: span 12;
 }
+
 </style>

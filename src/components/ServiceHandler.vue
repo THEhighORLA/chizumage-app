@@ -1,6 +1,6 @@
 <template>
     <div class="title">
-        {{$t("hello")}}
+        {{$t('current_language')}}
     </div>
     <div class="main-content">
         Esto es un contenido que dependera del servicio
@@ -10,13 +10,13 @@
 <script>
 
     export default {
-        inject: ['$i18n'],
+        data: ()=>({
+        }),
         computed: {
             $t() {
-            return this.$i18n.t
+                return this.$i18n.t
             }
         },
-        data: ()=>({
-        })  
+         
     }
 </script>

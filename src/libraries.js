@@ -15,16 +15,18 @@ export const vuetify = vuetifyx.createVuetify({
 })
 
 //VUE I18N Multilenguaje
-// import {createI18n} from 'vue-i18n'
-// export const i18n = createI18n({
-//     locale: 'es',
-//     messages: {
-//       en: import ('../src/assets/language_en.json'),
-//       es: import ('../src/assets/language_es.json')
-//     }
-// })
+
+import {createI18n} from 'vue-i18n'
+export const i18n = createI18n({
+    locale: 'en',
+    fallbackLocale: 'en',
+    messages: {
+        en: require('./assets/language_en.json'),
+      es: require('./assets/language_es.json')
+    }
+})
 
 //Vue3 MQ Auxiliar para responsividad
-import * as Vue3Mqx from "vue3-mq";
-export const Vue3Mq = Vue3Mqx;
+import * as vue3mqx from "vue3-mq";
+export const Vue3Mq = vue3mqx.Vue3Mq;
 
