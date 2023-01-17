@@ -1,11 +1,14 @@
 <template>
   <MqResponsive target="md-">
-    <MobileMenu></MobileMenu>
+    <div class="main-content">
+      <MobileMenu></MobileMenu>
+    </div>
   </MqResponsive>
   <MqResponsive target="lg+">
-    <NormalMenu></NormalMenu>
+    <div class="main-content">
+      <NormalMenu></NormalMenu>
+    </div>
   </MqResponsive>
-  <BaseFooter></BaseFooter>
 </template>
 
 <script>
@@ -15,15 +18,13 @@ import {MqResponsive} from 'vue3-mq';
 //Components
 import MobileMenu from './MobileMenu.vue';
 import NormalMenu from './NormalMenu.vue';
-import BaseFooter from './BaseFooter.vue';
 
 export default {
   name: 'SideBar',
   components:{
     MqResponsive,
     MobileMenu,
-    NormalMenu,
-    BaseFooter
+    NormalMenu
   },
   props: {
     msg: String
@@ -49,5 +50,8 @@ li {
 }
 a {
   color: #42b983;
+}
+.main-content{
+  height: 650px;
 }
 </style>

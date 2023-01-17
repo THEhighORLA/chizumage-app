@@ -1,14 +1,16 @@
 <template>
-  <SideBar />
+  <SideBar></SideBar>
+  <BaseFooter></BaseFooter>
 </template>
 
 <script>
 import SideBar from './components/SideBar.vue'
-
+import BaseFooter from './components/BaseFooter.vue';
 export default {
   name: 'App',
   components: {
-    SideBar
+    SideBar,
+    BaseFooter
   }
 }
 </script>

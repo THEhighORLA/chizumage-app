@@ -19,6 +19,8 @@
             <v-list-item prepend-icon="mdi-folder" title="My Files" value="myfiles"></v-list-item>
             <v-list-item prepend-icon="mdi-account-multiple" title="Shared with me" value="shared"></v-list-item>
             <v-list-item prepend-icon="mdi-star" title="Starred" value="starred"></v-list-item>
+            <v-list-item :prepend-icon="getThemeIcon" value='Change Theme'>
+            </v-list-item>
             </v-list>
         </v-navigation-drawer>
 
@@ -31,10 +33,29 @@
 
 <script>
     import ServiceHandler from './ServiceHandler.vue';
-
+    import { useTheme } from 'vuetify/lib/framework.mjs';
     export default {
         components:{
             ServiceHandler
+        },
+        computed:{
+            getThemeIcon(){
+                return useTheme().global.current.value.dark ? 'mdi-moon-waxing-crescent' : 'mdi-white-balance-sunny'
+            }
+        },
+        setup () {
+            const theme = useTheme()
+
+            return {
+                theme,
+                toggleTheme: () => theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
+            }
         }
     }
 </script>
+
+<style>
+    .theme-icon{
+        font-size: 1.5rem;
+    }
+</style>
