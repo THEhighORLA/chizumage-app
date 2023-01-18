@@ -1,9 +1,31 @@
 {
   "general_services":"Servicios",
   "general_service":"Servicio",
+  "general_additional_info":"Informacion Adicional",
+  "general_validation_info":"Informacion de Validacion",
+  "general_total_amount":"Monto Total de Cuentas",
+  "general_total_cad":"Monto Total CAD",
+  "general_destinatary":"Destinatario",
+  "general_email":"Correo",
+  "general_date":"Fecha",
+  "general_amount":"Monto",
+  "general_username":"Nombre Usuario",
+  "general_responsable":"Responsable",
+  "general_comentary":"Comentario",
+  "general_operation_type":"Tipo Operacion",
+  "general_status":"Estado",
   "change_theme": "Cambiar Tema",
   "change_language": "Cambiar Idioma",
   "goodbye": "Adios",
   "operations_transactions_title":"Operaciones y Transacciones",
-  "current_language":"ES"
+  "current_language":"ES",
+
+  "status_inprogress":"En Proceso",
+  "status_success":"Exitoso",
+  "status_processed":"Efectuado",
+  
+  "usd": {
+    "style": "currency",
+    "currency": "USD"
+  }
 }

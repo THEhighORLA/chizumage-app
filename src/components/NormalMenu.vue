@@ -25,7 +25,7 @@
             </v-list>
         </v-navigation-drawer>
 
-        <v-main style="height: 250px">
+        <v-main>
             <ServiceHandler></ServiceHandler>  
         </v-main>
         </v-layout>

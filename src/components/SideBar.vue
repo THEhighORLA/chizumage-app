@@ -4,6 +4,7 @@
       <MobileMenu
         :menu-options="getMenuOptions"
       ></MobileMenu>
+      <BaseFooter></BaseFooter>
     </div>
   </MqResponsive>
   <MqResponsive target="lg+">
@@ -11,8 +12,10 @@
       <NormalMenu ref="normalMenu"
         :menu-options="getMenuOptions"
       ></NormalMenu>
+      <BaseFooter></BaseFooter>
     </div>
   </MqResponsive>
+  
 </template>
 
 <script>
@@ -20,6 +23,7 @@
 //External Libs 
 import {MqResponsive} from 'vue3-mq';
 import { useTheme } from 'vuetify/lib/framework.mjs';
+import BaseFooter from './BaseFooter.vue';
 
 //Components
 import MobileMenu from './MobileMenu.vue';
@@ -31,8 +35,14 @@ export default {
   components:{
     MqResponsive,
     MobileMenu,
-    NormalMenu
-  },
+    NormalMenu,
+    BaseFooter
+},
+  data:()=>({
+    order:0,
+    menuOptions:[],
+    currentService:'Prueba'
+  }),
   computed: {
     getMenuOptions(){
       let _this = this;
@@ -95,10 +105,6 @@ export default {
         
     }
   },  
-  data:()=>({
-    order:0,
-    menuOptions:[],
-  }),
 }
 </script>
 

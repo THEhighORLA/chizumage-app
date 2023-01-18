@@ -23,7 +23,22 @@ export const i18n = createI18n({
     messages: {
         en: require('./assets/language_en.json'),
       es: require('./assets/language_es.json')
-    }
+    },
+    numberFormats:{
+        'en-US': {
+          currency: {
+            style: 'currency',
+            currency: 'USD'
+          }
+        },
+        'ja-JP': {
+          currency: {
+            style: 'currency',
+            currency: 'JPY',
+            currencyDisplay: 'symbol'
+          }
+        }
+      }
 })
 
 //Vue3 MQ Auxiliar para responsividad

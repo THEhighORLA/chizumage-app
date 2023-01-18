@@ -12,6 +12,7 @@
     "@mdi/font": "^7.1.96",
     "bootstrap": "^5.2.3",
     "core-js": "^3.8.3",
+    "dotenv-webpack": "^8.0.1",
     "vue": "^3.2.13",
     "vue-i18n": "^9.2.2",
     "vue3-mq": "^3.1.3",
