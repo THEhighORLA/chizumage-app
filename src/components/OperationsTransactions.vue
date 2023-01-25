@@ -1,41 +1,68 @@
 <template>
-    <div class="product-group">
-        <div class="product-card col-4" v-for="(card,idx) in cardConfig" :key="idx">
-            <v-card variant="tonal"
-            >
-                <v-card-title class="product-card-title">{{card.product}}</v-card-title>
-                <v-divider></v-divider>
-                <v-card-subtitle>{{card.user}}</v-card-subtitle>
-                <v-card-item>{{formatMoney(card.value)}}</v-card-item>
-            </v-card>
+    <div class="operation-registration" v-if="step == 'reg'">
+        <div>
+            
+        </div>
+        <div class="button-container">
+            <v-btn
+                class="info"
+                @click="step='list'"
+            >{{$t('general_cancel')}}</v-btn>
+            <v-btn
+                class="success"
+            >{{$t('general_register')}}</v-btn>
         </div>
     </div>
-    <div class="add-info-panel col-12">
-        <div class="col-2"></div>
-        <div class="col-8">
-            <v-expansion-panels>
-                <v-expansion-panel>
-                    <v-expansion-panel-title class="expansion-panel-title">{{$t("general_validation_info")}}</v-expansion-panel-title>
-                    <v-expansion-panel-text>
-                        <v-list>
-                            <v-list-item v-for="(info,idx) in additionalInfo" :key="idx">
-                                <v-list-item-title>{{info.title}}</v-list-item-title>
-                                <v-list-item-subtitle>{{info.subtitle}}</v-list-item-subtitle>
-                            </v-list-item>
-                        </v-list>
-                    </v-expansion-panel-text>
-                </v-expansion-panel>
-            </v-expansion-panels>
+    <div class="operation-list" v-else>
+        <div class="product-group">
+            <div class="product-card col-4" v-for="(card,idx) in cardConfig" :key="idx">
+                <v-card variant="tonal"
+                >
+                    <v-card-title class="product-card-title">{{card.product}}</v-card-title>
+                    <v-divider></v-divider>
+                    <v-card-subtitle>{{card.user}}</v-card-subtitle>
+                    <v-card-item>{{formatMoney(card.value)}}</v-card-item>
+                </v-card>
+            </div>
         </div>
-        <div class="col-2"></div>
+        <div class="add-info-panel col-12">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <v-expansion-panels>
+                    <v-expansion-panel>
+                        <v-expansion-panel-title class="expansion-panel-title">{{$t("general_validation_info")}}</v-expansion-panel-title>
+                        <v-expansion-panel-text>
+                            <v-list>
+                                <v-list-item v-for="(info,idx) in additionalInfo" :key="idx">
+                                    <v-list-item-title>{{info.title}}</v-list-item-title>
+                                    <v-list-item-subtitle>{{info.subtitle}}</v-list-item-subtitle>
+                                </v-list-item>
+                            </v-list>
+                        </v-expansion-panel-text>
+                    </v-expansion-panel>
+                </v-expansion-panels>
+            </div>
+            <div class="col-2"></div>
+        </div>
+        <div class="register-container">
+            <v-btn
+                class="success"
+                @click.prevent="step='reg'"
+            >{{$t('register_operation')}}</v-btn>
+        </div>
+        <div class="transaction-table">
+            <div class="col2"></div>
+            <div class="col10">
+                <VuetiTable v-if="tableSource.length > 0"
+                    :headers="tableFields"
+                    :source="tableSource"
+                ></VuetiTable>
+            </div>
+            
+            <div class="col2"></div>
+        </div>
     </div>
-
-    <div class="transaction-table">
-        <VuetiTable
-            :fields="tableFields"
-            :source="tableSource"
-        ></VuetiTable>
-    </div>
+    
     
 </template>
 
@@ -52,6 +79,7 @@ import VuetiTable from './VuetiTable.vue';
         additionalInfo: [],
         tableFields:[],
         tableSource:[],
+        step:'list'
     }),
     computed: {
         $t() {
@@ -143,6 +171,7 @@ import VuetiTable from './VuetiTable.vue';
 
                 },
             ];
+            console.log("Pasando data:",data)
             this.tableSource = data;
             
         },
