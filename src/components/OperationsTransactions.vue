@@ -1,17 +1,13 @@
 <template>
     <div class="operation-registration" v-if="step == 'reg'">
         <div>
-            
+            <DynamicForm
+                :form-config="formConfig"
+                @form-cancel="step = 'list'"
+                @form-continue="regContinue"
+            ></DynamicForm>
         </div>
-        <div class="button-container">
-            <v-btn
-                class="info"
-                @click="step='list'"
-            >{{$t('general_cancel')}}</v-btn>
-            <v-btn
-                class="success"
-            >{{$t('general_register')}}</v-btn>
-        </div>
+        
     </div>
     <div class="operation-list" v-else>
         <div class="product-group">
@@ -67,6 +63,7 @@
 </template>
 
 <script>
+import DynamicForm from './DynamicForm.vue';
 import VuetiTable from './VuetiTable.vue';
 
 
@@ -79,7 +76,20 @@ import VuetiTable from './VuetiTable.vue';
         additionalInfo: [],
         tableFields:[],
         tableSource:[],
-        step:'list'
+        step:'list',
+        formConfig:[
+            {
+                "name":"name",
+                "type":"input",
+                "inputType":"text",
+                "onChange":()=>{
+                    console.log("Hola Soy una funcion pasada dinamicamente");
+                },
+                "placeholder":"Prueba",
+                "isRequired":true,
+                "defaultValue":''
+            }
+        ]
     }),
     computed: {
         $t() {
@@ -215,9 +225,12 @@ import VuetiTable from './VuetiTable.vue';
                 .then((data) => {
                 obj.onSuccess(data);
             });
+        },
+        regContinue(form){
+            console.log("Form",form)
         }
     },
-    components: { VuetiTable }
+    components: { VuetiTable, DynamicForm }
 }
 </script>
 

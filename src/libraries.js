@@ -45,3 +45,9 @@ export const i18n = createI18n({
 import * as vue3mqx from "vue3-mq";
 export const Vue3Mq = vue3mqx.Vue3Mq;
 
+
+//Vuelidate
+import * as useVuelidatex  from '@vuelidate/core'
+export const {useVuelidate} = useVuelidatex;
+import * as validators from '@vuelidate/validators'
+export const {required,email} = validators;

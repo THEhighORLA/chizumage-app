@@ -12,5 +12,8 @@ app.use(lib.Vue3Mq, {
     preset: 'vuetify'
 })
 app.use(lib.i18n);
+app.use(lib.useVuelidate);
+app.use(lib.email);
+app.use(lib.required)
 
 app.mount('#app')
