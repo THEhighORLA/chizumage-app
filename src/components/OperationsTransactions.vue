@@ -79,13 +79,49 @@ import VuetiTable from './VuetiTable.vue';
         step:'list',
         formConfig:[
             {
-                "name":"name",
+                "name":"destinatary",
                 "type":"input",
                 "inputType":"text",
-                "onChange":()=>{
-                    console.log("Hola Soy una funcion pasada dinamicamente");
-                },
-                "placeholder":"Prueba",
+                "placeholder":"general_destinatary",
+                "isRequired":false,
+                "defaultValue":''
+            },
+            {
+                "name":"email",
+                "type":"input",
+                "inputType":"email",
+                "placeholder":"general_email",
+                "isRequired":false,
+                "defaultValue":''
+            },
+            {
+                "name":"amount",
+                "type":"input",
+                "inputType":"money",
+                "placeholder":"general_amount",
+                "isRequired":true,
+                "defaultValue":''
+            },
+            {
+                "name":"responsable",
+                "type":"combo",
+                "placeholder":"general_responsable",
+                "isRequired":true,
+                "defaultValue":''
+            },
+            {
+                "name":"comentary",
+                "type":"input",
+                "inputType":"text",
+                "placeholder":"general_comentary",
+                "isRequired":true,
+                "defaultValue":''
+            },
+            {
+                "name":"destinatary",
+                "type":"input",
+                "inputType":"text",
+                "placeholder":"general_destinatary",
                 "isRequired":true,
                 "defaultValue":''
             }

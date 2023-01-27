@@ -5,56 +5,41 @@
       lazy-validation
     >
       <v-text-field
-        v-model="name"
+        v-model="form.destinatary"
         :counter="10"
         :rules="nameRules"
-        label="Name"
+        label=""
         required
       ></v-text-field>
   
       <v-text-field
-        v-model="email"
+        v-model="form.email"
         :rules="emailRules"
         label="E-mail"
         required
       ></v-text-field>
   
       <v-select
-        v-model="select"
+        v-model="form.responsable"
         :items="items"
         :rules="[v => !!v || 'Item is required']"
         label="Item"
         required
       ></v-select>
   
-      <v-checkbox
-        v-model="checkbox"
-        :rules="[v => !!v || 'You must agree to continue!']"
-        label="Do you agree?"
-        required
-      ></v-checkbox>
-  
       <v-btn
         color="success"
         class="me-4"
-        @click="validate"
+        @click="continueHandler"
       >
-        Validate
+        {{$t("general_continue")}}
       </v-btn>
   
       <v-btn
-        color="error"
-        class="me-4"
-        @click="reset"
+        color="info"
+        @click="$emit('form-cancel')"
       >
-        Reset Form
-      </v-btn>
-  
-      <v-btn
-        color="warning"
-        @click="resetValidation"
-      >
-        Reset Validation
+        {{$t("general_cancel")}}
       </v-btn>
     </v-form>
   </template>
