@@ -3,9 +3,14 @@ import {createApp} from 'vue'
 import App from './App.vue'
 
 import * as lib from './libraries'
+import util from './assets/utils'
 
 
-const app = createApp(App)
+const app = createApp(Object.assign(App,{
+    config: {
+        methods:util
+    }
+}));
 
 app.use(lib.vuetify);
 app.use(lib.Vue3Mq, {
@@ -14,6 +19,6 @@ app.use(lib.Vue3Mq, {
 app.use(lib.i18n);
 app.use(lib.useVuelidate);
 app.use(lib.email);
-app.use(lib.required)
+app.use(lib.required);
 
 app.mount('#app')

@@ -26,6 +26,8 @@
   "status_inprogress":"En Proceso",
   "status_success":"Exitoso",
   "status_processed":"Efectuado",
+
+  "error_field_required":"Campo Requerido",
   
   "usd": {
     "style": "currency",

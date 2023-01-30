@@ -4,82 +4,93 @@
       v-model="valid"
       lazy-validation
     >
-      <v-text-field
-        v-model="form.destinatary"
-        :counter="10"
-        :rules="nameRules"
-        label=""
-        required
-      ></v-text-field>
-  
-      <v-text-field
-        v-model="form.email"
-        :rules="emailRules"
-        label="E-mail"
-        required
-      ></v-text-field>
-  
       <v-select
-        v-model="form.responsable"
-        :items="items"
-        :rules="[v => !!v || 'Item is required']"
-        label="Item"
+        v-model="form.typeTransaction"
+        :items="typeTransactionOptions"
+        :rules="[v => !!v || $t('error_field_required')]"
+        :label="$t('general_operation_type')"
         required
       ></v-select>
-  
-      <v-btn
-        color="success"
-        class="me-4"
-        @click="continueHandler"
-      >
-        {{$t("general_continue")}}
-      </v-btn>
-  
-      <v-btn
-        color="info"
-        @click="$emit('form-cancel')"
-      >
-        {{$t("general_cancel")}}
-      </v-btn>
-    </v-form>
+      <div>
+        <v-text-field
+          v-model="form.destinatary"
+          :counter="10"
+          :rules="nameRules"
+          :label="$t('general_destinatary')"
+          required
+        ></v-text-field>
+    
+        <v-text-field
+          v-model="form.email"
+          :rules="emailRules"
+          :label="$t('general_email')"
+          required
+        ></v-text-field>
+      </div>
+
+        <v-text-field
+          v-model="form.amount"
+          :label="$t('general_amount')"
+          required
+        ></v-text-field>
+
+        <v-select
+          v-model="form.responsable"
+          :items="items"
+          :rules="[v => !!v || $t('error_field_required')]"
+          :label="$t('general_responsable')"
+          required
+        ></v-select>
+        
+        <v-text-field
+          v-model="form.comentary"
+          :label="$t('general_comentary')"
+          required
+        ></v-text-field>
+    
+        <v-btn
+          color="success"
+          class="me-4"
+          @click="continueHandler"
+        >
+          {{$t("general_continue")}}
+        </v-btn>
+    
+        <v-btn
+          color="info"
+          @click="$emit('form-cancel')"
+        >
+          {{$t("general_cancel")}}
+        </v-btn>
+      </v-form>
   </template>
 
 <script>
+
+
     export default {
         data: () => ({
             valid: true,
-            name: '',
-            nameRules: [
-            v => !!v || 'Name is required',
-            v => (v && v.length <= 10) || 'Name must be less than 10 characters',
-            ],
-            email: '',
-            emailRules: [
-            v => !!v || 'E-mail is required',
-            v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-            ],
-            select: null,
-            items: [
-            'Item 1',
-            'Item 2',
-            'Item 3',
-            'Item 4',
-            ],
+            form:{
+              typeOperation:null,
+              destinatary:'',
+              email:'',
+              amount:'',
+              responsable:null,
+              comentary:''
+            },
+            typeTransactionOptions:[],
+            responsableOptions:[],
             checkbox: false,
         }),
-
+        setup(){
+          console.log(this.utilTest())
+        },  
         methods: {
-            async validate () {
-            const { valid } = await this.$refs.form.validate()
+            continueHandler(){
 
-            if (valid) alert('Form is valid')
-            },
-            reset () {
-            this.$refs.form.reset()
-            },
-            resetValidation () {
-            this.$refs.form.resetValidation()
-            },
+              this.$emit('form-continue',this.form);
+            }
         },
     }
 </script>

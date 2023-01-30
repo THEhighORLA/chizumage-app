@@ -1,11 +1,11 @@
 <template>
     <div class="operation-registration" v-if="step == 'reg'">
         <div>
-            <DynamicForm
+            <OperationForm
                 :form-config="formConfig"
                 @form-cancel="step = 'list'"
                 @form-continue="regContinue"
-            ></DynamicForm>
+            ></OperationForm>
         </div>
         
     </div>
@@ -64,6 +64,7 @@
 
 <script>
 import DynamicForm from './DynamicForm.vue';
+import OperationForm from './OperationForm.vue';
 import VuetiTable from './VuetiTable.vue';
 
 
@@ -266,7 +267,7 @@ import VuetiTable from './VuetiTable.vue';
             console.log("Form",form)
         }
     },
-    components: { VuetiTable, DynamicForm }
+    components: { VuetiTable, DynamicForm, OperationForm }
 }
 </script>
 
