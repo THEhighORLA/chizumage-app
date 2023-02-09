@@ -15,7 +15,11 @@
   "general_operation_type":"Operation type",
   "general_status":"Status",
   "general_cancel":"Cancel",
+  "general_back":"Back",
   "general_register":"Register",
+  "general_continue":"Continue",
+  "general_not_apply":"-",
+
   "change_theme": "Change Theme",
   "change_language": "Change Language",
   "goodbye": "Goodbye",

@@ -7,6 +7,13 @@ module.exports = defineConfig({
   configureWebpack: {
     plugins: [
       new Dotenv()
-    ]
+    ],
+    resolve: {
+      fallback:{
+        "fs": false,
+        "path": false,
+        "os": false
+      }
+    }
   }
 })

@@ -1,21 +1,26 @@
 <template>
-  <MqResponsive target="md-">
-    <div class="main-content">
-      <MobileMenu
-        :menu-options="getMenuOptions"
-      ></MobileMenu>
-      <BaseFooter></BaseFooter>
-    </div>
-  </MqResponsive>
-  <MqResponsive target="lg+">
-    <div class="main-content">
-      <NormalMenu ref="normalMenu"
-        :menu-options="getMenuOptions"
-      ></NormalMenu>
-      <BaseFooter></BaseFooter>
-    </div>
-  </MqResponsive>
-  
+  <div>
+    <MqResponsive target="md-">
+      <div class="main-content">
+        <MobileMenu
+          :menu-options="getMenuOptions"
+          :select-service="selectService"
+          :current-service="currentService"
+        ></MobileMenu>
+        <BaseFooter></BaseFooter>
+      </div>
+    </MqResponsive>
+    <MqResponsive target="lg+">
+      <div class="main-content">
+        <NormalMenu ref="normalMenu"
+          :menu-options="getMenuOptions"
+          :select-service="selectService"
+          :current-service="currentService"
+        ></NormalMenu>
+        <BaseFooter></BaseFooter>
+      </div>
+    </MqResponsive>
+  </div>
 </template>
 
 <script>
@@ -37,7 +42,15 @@ export default {
     MobileMenu,
     NormalMenu,
     BaseFooter
-},
+  },
+  props: {
+      currentService:{
+          type:Array
+      },
+      selectService:{
+          type:Function
+      },
+  },
   data:()=>({
     order:0,
     menuOptions:[],
@@ -51,6 +64,9 @@ export default {
           "id":1,
           "icon":"mdi-folder",
           "title":this.$t('general_services'),
+          "clickHandler":()=>{
+              this.selectService('optx');
+          },
           "childServices":[
             {
               "title":this.$t("operations_transactions_title"),

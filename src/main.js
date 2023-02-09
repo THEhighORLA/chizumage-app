@@ -3,14 +3,12 @@ import {createApp} from 'vue'
 import App from './App.vue'
 
 import * as lib from './libraries'
-import util from './assets/utils'
+
+console.log('Starting Enviroment:',process.env.VUE_APP_NODE_ENV)
 
 
-const app = createApp(Object.assign(App,{
-    config: {
-        methods:util
-    }
-}));
+
+const app = createApp(App)
 
 app.use(lib.vuetify);
 app.use(lib.Vue3Mq, {

@@ -1,13 +1,14 @@
 <template>
     <div class="operation-registration" v-if="step == 'reg'">
-        <div>
+        <div class="col-4"></div>
+        <div class="operation-form col-4">
             <OperationForm
                 :form-config="formConfig"
-                @form-cancel="step = 'list'"
+                @form-cancel="cancelHandler"
                 @form-continue="regContinue"
             ></OperationForm>
         </div>
-        
+        <div class="col-4"></div>
     </div>
     <div class="operation-list" v-else>
         <div class="product-group">
@@ -63,212 +64,226 @@
 </template>
 
 <script>
-import DynamicForm from './DynamicForm.vue';
-import OperationForm from './OperationForm.vue';
-import VuetiTable from './VuetiTable.vue';
+    import OperationForm from './OperationForm.vue';
+    import VuetiTable from './VuetiTable.vue';
+    import utils from '../assets/utils.js';
 
 
-/* eslint-disable */
     export default{
-    data: () => ({
-        userAccounts: [],
-        apiUri: process.env.VUE_APP_API_URI,
-        cardConfig: [],
-        additionalInfo: [],
-        tableFields:[],
-        tableSource:[],
-        step:'list',
-        formConfig:[
-            {
-                "name":"destinatary",
-                "type":"input",
-                "inputType":"text",
-                "placeholder":"general_destinatary",
-                "isRequired":false,
-                "defaultValue":''
+        mixins:[utils],
+        data: () => ({
+            userAccounts: [],
+            apiUri: process.env.VUE_APP_API_URI,
+            cardConfig: [],
+            additionalInfo: [],
+            tableFields:[],
+            tableSource:[],
+            step:'list',
+            formConfig:[
+                {
+                    "name":"destinatary",
+                    "type":"input",
+                    "inputType":"text",
+                    "placeholder":"general_destinatary",
+                    "isRequired":false,
+                    "defaultValue":''
+                },
+                {
+                    "name":"email",
+                    "type":"input",
+                    "inputType":"email",
+                    "placeholder":"general_email",
+                    "isRequired":false,
+                    "defaultValue":''
+                },
+                {
+                    "name":"amount",
+                    "type":"input",
+                    "inputType":"money",
+                    "placeholder":"general_amount",
+                    "isRequired":true,
+                    "defaultValue":''
+                },
+                {
+                    "name":"responsable",
+                    "type":"combo",
+                    "placeholder":"general_responsable",
+                    "isRequired":true,
+                    "defaultValue":''
+                },
+                {
+                    "name":"comentary",
+                    "type":"input",
+                    "inputType":"text",
+                    "placeholder":"general_comentary",
+                    "isRequired":true,
+                    "defaultValue":''
+                },
+                {
+                    "name":"destinatary",
+                    "type":"input",
+                    "inputType":"text",
+                    "placeholder":"general_destinatary",
+                    "isRequired":true,
+                    "defaultValue":''
+                }
+            ]
+        }),
+        computed: {
+            $t() {
+                return this.$i18n.t;
             },
-            {
-                "name":"email",
-                "type":"input",
-                "inputType":"email",
-                "placeholder":"general_email",
-                "isRequired":false,
-                "defaultValue":''
+            $n() {
+                return this.$i18n.n;
             },
-            {
-                "name":"amount",
-                "type":"input",
-                "inputType":"money",
-                "placeholder":"general_amount",
-                "isRequired":true,
-                "defaultValue":''
-            },
-            {
-                "name":"responsable",
-                "type":"combo",
-                "placeholder":"general_responsable",
-                "isRequired":true,
-                "defaultValue":''
-            },
-            {
-                "name":"comentary",
-                "type":"input",
-                "inputType":"text",
-                "placeholder":"general_comentary",
-                "isRequired":true,
-                "defaultValue":''
-            },
-            {
-                "name":"destinatary",
-                "type":"input",
-                "inputType":"text",
-                "placeholder":"general_destinatary",
-                "isRequired":true,
-                "defaultValue":''
-            }
-        ]
-    }),
-    computed: {
-        $t() {
-            return this.$i18n.t;
         },
-        $n() {
-            return this.$i18n.n;
-        },
-    },
-    watch: {
-        userAccounts(val) {
-            if (val.length > 0) {
-                this.setValidationInfo(val);
+        watch: {
+            userAccounts(val) {
+                if (val.length > 0) {
+                    this.setValidationInfo(val);
+                }
             }
-        }
-    },
-    mounted() {
-        let _this = this;
-        //Fetch de todas las cuentas
-        this.fetchUri({
-            url: this.getMethodUri("cUserProducts"),
-            onSuccess: this.prepareProduct
-        });
+        },
+        mounted() {
+            //Fetch de todas las cuentas
+            this.fetchUri({
+                url:"cUserProducts",
+                onSuccess: this.prepareProduct,
+                onError:(error)=>{
+                    console.error("Error:",error);
+                }
+            });
 
-        this.fetchUri({
-            url:this.getMethodUri("cOperationTransaction"),
-            onSuccess:this.prepareTable
-        });
-    },
-    methods: {
-        prepareProduct(data) {
-            data = data.data;
-            this.userAccounts = data;
-            data.map((e) => {
-                const accountFilter = ["Cuenta Total Ahorro", "Cuenta Total Corriente"];
-                if (accountFilter.indexOf(e.alt_name) != -1) {
-                    this.cardConfig.push({
-                        product: e.alt_name,
-                        value: parseFloat(e.amount),
-                        user: e.c_user.name
-                    });
+            this.fetchUri({
+                url:"cOperationTransaction",
+                onSuccess:this.prepareTable,
+                onError:(error)=>{
+                    console.error("Error:",error);
                 }
             });
         },
-        prepareTable(data){
-            data = data.data;
-            this.tableFields = [
-                {
-                    name:'destinatary_name',
-                    text:'general_destinatary'
-                },
-                {
-                    name:'destinatary_email',
-                    text:'general_email'
-                },
-                {
-                    name:'creation_date',
-                    text:'general_date'
-                },
-                {
-                    name:'amount_value',
-                    text:'general_amount',
-                    formatter:(val)=>(
-                        this.formatMoney(parseFloat(val))
-                    )
-                },
-                {
-                    name:'c_user',
-                    text:'general_responsable',
-                    formatter:(val)=>(
-                        val.name
-                    )
-                },
-                {
-                    name:'comentary',
-                    text:'general_comentary'
-                },
-                {
-                    name:'c_operation_type',
-                    text:'general_operation_type',
-                    formatter:(val)=>(
-                        val.name
-                    )
-                },
-                {
-                    name:'status',
-                    text:'general_status',
-                    code:'operation_status_id'
+        methods: {
+            prepareProduct(data) {
+                data = data.data;
+                this.userAccounts = data;
+                data.map((e) => {
+                    const accountFilter = ["Cuenta Total Ahorro", "Cuenta Total Corriente"];
+                    if (accountFilter.indexOf(e.alt_name) != -1) {
+                        this.cardConfig.push({
+                            product: e.alt_name,
+                            value: parseFloat(e.amount),
+                            user: e.c_user.name
+                        });
+                    }
+                });
+            },
+            prepareTable(data){
+                data = data.data;
+                this.tableFields = [
+                    {
+                        name:'destinatary_name',
+                        text:'general_destinatary',
+                        formatter:(val)=>(
+                            val.trim() === ""?this.$t('general_not_apply'):val
+                        )
+                    },
+                    {
+                        name:'destinatary_email',
+                        text:'general_email',
+                        formatter:(val)=>(
+                            val.trim() === ""?this.$t('general_not_apply'):val
+                        )
+                    },
+                    {
+                        name:'creation_date',
+                        text:'general_date'
+                    },
+                    {
+                        name:'amount_value',
+                        text:'general_amount',
+                        formatter:(val)=>(
+                            this.formatMoney(parseFloat(val))
+                        )
+                    },
+                    {
+                        name:'c_user',
+                        text:'general_responsable',
+                        formatter:(val)=>(
+                            val.name
+                        )
+                    },
+                    {
+                        name:'comentary',
+                        text:'general_comentary'
+                    },
+                    {
+                        name:'c_operation_type',
+                        text:'general_operation_type',
+                        formatter:(val)=>(
+                            val.name
+                        )
+                    },
+                    {
+                        name:'status',
+                        text:'general_status',
+                        code:'operation_status_id'
 
-                },
-            ];
-            console.log("Pasando data:",data)
-            this.tableSource = data;
-            
-        },
-        setValidationInfo(data) {
-            let accountFilter = ["Cuenta Total Ahorro", "Cuenta Total Corriente"];
-            let mainAccount = data.filter((d) => (accountFilter.indexOf(d.alt_name) != -1 && d.user_id == 1));
-            let totalAmount = mainAccount.reduce((sum, obj) => (sum + parseFloat(obj.amount)), 0);
-            //Se convierte el monto a dolares canadienses para referencia
-            let cadF = process.env.VUE_APP_CAD_CONV;
-            this.additionalInfo.push({
-                "title": this.$t("general_total_amount"),
-                "subtitle": this.formatMoney(totalAmount)
-            });
-            
-            this.additionalInfo.push({
-                "title": this.$t("general_total_cad"),
-                "subtitle": this.formatMoney(totalAmount * cadF)
-            });
-        },
-        getMethodUri(method) {
-            return this.apiUri + method;
-        },
-        formatMoney(i) {
-            return this.$n(i, "currency", "en-US");
-        },
-        fetchUri(obj) {
-            let fetchConfig = {
-                method: "GET",
-                mode: "cors",
-                cache: "no-cache",
-                credentials: "same-origin",
-                headers: Object.assign({
-                    "Content-Type": "application/json",
-                }, obj.headers),
-            };
-            if (obj.params) {
-                fetchConfig["body"] = obj.params;
+                    },
+                ];
+                this.tableSource = data;
+                
+            },
+            setValidationInfo(data) {
+                let accountFilter = ["Cuenta Total Ahorro", "Cuenta Total Corriente"];
+                let mainAccount = data.filter((d) => (accountFilter.indexOf(d.alt_name) != -1 && d.user_id == 1));
+                let totalAmount = mainAccount.reduce((sum, obj) => (sum + parseFloat(obj.amount)), 0);
+                //Se convierte el monto a dolares canadienses para referencia
+                let cadF = process.env.VUE_APP_CAD_CONV;
+                this.additionalInfo.push({
+                    "title": this.$t("general_total_amount"),
+                    "subtitle": this.formatMoney(totalAmount)
+                });
+                
+                this.additionalInfo.push({
+                    "title": this.$t("general_total_cad"),
+                    "subtitle": this.formatMoney(totalAmount * cadF)
+                });
+            },
+            formatMoney(i) {
+                return this.$n(i, "currency", "en-US");
+            },
+            regContinue(form){
+                
+                let params = {
+                    "user_id":parseInt(form.responsable),
+                    "operation_type_id":parseInt(form.typeTransaction),
+                    "operation_status_id":1,
+                    "destinatary_name":form.destinatary,
+                    "destinatary_email":form.email,
+                    "creation_date":this.usDateToLatin(new Date().toLocaleDateString()),
+                    "amount_value":parseFloat(form.amount),
+                    "comentary":form.comentary
+                }
+
+                this.fetchUri({
+                    url:"cOperationTransaction",
+                    method: "POST",
+                    params,
+                    onSuccess:(rs)=>{
+                        console.log(rs);
+                    },
+                    onError:(error)=>{
+                        console.error("Error:",error);
+                    }
+                });
+            },
+            cancelHandler(){
+                this.step = 'list';
+                this.$emit("cancel-handler")
             }
-            fetch(obj.url, fetchConfig)
-                .then((response) => response.json())
-                .then((data) => {
-                obj.onSuccess(data);
-            });
         },
-        regContinue(form){
-            console.log("Form",form)
-        }
-    },
-    components: { VuetiTable, DynamicForm, OperationForm }
-}
+        components: { VuetiTable, OperationForm }
+    }
 </script>
 
 <style>
@@ -284,5 +299,13 @@ import VuetiTable from './VuetiTable.vue';
 .add-info-panel{
     margin: 30px 0px;
     display: inline-flex;
+}
+
+.operation-registration{
+    display: flex;
+}
+.operation-registration .operation-form{
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 </style>

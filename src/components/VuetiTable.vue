@@ -58,10 +58,7 @@ export default {
         )).length > 0;
     },
     getRowValue(row,header,rowIdx){
-      /* eslint-disable */
-      debugger;
       let fieldConf = this.headers.filter((f)=>{
-            debugger;
             return f.name == header;
     });
       let finalVal = "";

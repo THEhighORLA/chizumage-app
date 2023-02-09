@@ -1,11 +1,14 @@
 <template>
-    <div class="service-title">
-        <h1>{{$t(serviceTitle)}}</h1>
-    </div>
-    <div class="service-content">
-        <div v-if="serviceSelected == 'optx'" >
-            <OperationsTransactions
-            ></OperationsTransactions>
+    <div>
+        <div class="service-title">
+            <h1>{{$t(getCurrentService.title)}}</h1>
+        </div>
+        <div class="service-content">
+            <div v-if="getCurrentService.code == 'optx'" >
+                <OperationsTransactions :key="optxKey"
+                    @cancel-handler="reloadService('optx')"
+                ></OperationsTransactions>
+            </div>
         </div>
     </div>
 </template>
@@ -16,23 +19,37 @@
     export default {
         components:{
             OperationsTransactions
-        },  
+        }, 
+        props:{
+            currentService:{
+                type:Array
+            },
+        }, 
         data: ()=>({
             serviceTitle:"",
             serviceSelected:"",
+            optxKey:0,
         }),
         computed: {
             $t() {
                 return this.$i18n.t
             },
+            getCurrentService() {
+                return this.currentService;
+            }
         },
         mounted(){
             this.getUserServices();
+            console.log('serviceSelected',this.getCurrentService)
         },
         methods:{
             getUserServices(){
                 this.serviceTitle = this.$root.currentService.title;
                 this.serviceSelected =  this.$root.currentService.code;
+            },
+            reloadService(service){
+                this.optxKey ++;
+                this.serviceSelected = service;
             }
         }
     }

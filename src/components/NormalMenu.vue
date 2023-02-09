@@ -26,7 +26,9 @@
         </v-navigation-drawer>
 
         <v-main>
-            <ServiceHandler></ServiceHandler>  
+            <ServiceHandler
+                :current-service="currentService"
+            ></ServiceHandler>  
         </v-main>
         </v-layout>
     </v-card>
@@ -40,7 +42,13 @@
             menuOptions:{
                 type:Array,
                 default:()=>([])
-            }
+            },
+            currentService:{
+                type:Array
+            },
+            selectService:{
+                type:Function
+            },
         },
         components:{
             ServiceHandler

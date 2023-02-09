@@ -51,3 +51,4 @@ import * as useVuelidatex  from '@vuelidate/core'
 export const {useVuelidate} = useVuelidatex;
 import * as validators from '@vuelidate/validators'
 export const {required,email} = validators;
+
