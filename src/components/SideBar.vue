@@ -24,7 +24,7 @@
 </template>
 
 <script>
-/* eslint-disable */ //ELIMINAR
+
 //External Libs 
 import {MqResponsive} from 'vue3-mq';
 import { useTheme } from 'vuetify/lib/framework.mjs';
@@ -43,18 +43,12 @@ export default {
     NormalMenu,
     BaseFooter
   },
-  props: {
-      currentService:{
-          type:Array
-      },
-      selectService:{
-          type:Function
-      },
-  },
   data:()=>({
     order:0,
     menuOptions:[],
-    currentService:'Prueba'
+    currentService:null,
+    userMenu:[],
+    menuConfig:[]
   }),
   computed: {
     getMenuOptions(){
@@ -64,17 +58,7 @@ export default {
           "id":1,
           "icon":"mdi-folder",
           "title":this.$t('general_services'),
-          "clickHandler":()=>{
-              this.selectService('optx');
-          },
-          "childServices":[
-            {
-              "title":this.$t("operations_transactions_title"),
-              "clickHandler"(){
-                console.log('Mostrando Servicio de Operaciones y transaciones')
-              }
-            },
-          ],
+          "childServices":this.menuConfig
         },
         {
           "id":2,
@@ -102,15 +86,44 @@ export default {
         return this.$i18n.t
     }
   },
-  mounted(){
+  created(){
+    // * fetch para obtener los servicios
+    // this.fetchUri()
+    const dummyData = [
+        {
+          'title': 'operations_transactions_title',
+          'code': 'optx',
+        },
+        {
+          'title': 'landing_page_title',
+          'code': 'landing',
+        },
+    ];
+
+    this.userMenu = dummyData;
+    
+    this.menuConfig = dummyData.map((op)=>{
+      return {
+        "title":this.$t(op.title),
+        "clickHandler":()=>{
+          this.selectService(op.code);
+        }
+      }
+    });
+    
+    this.selectService('landing');
+    
   },
   methods:{
-    changeTheme(s){
+    changeTheme(){
       return this.toggleTheme();
     },
     toggleLocation(){
         this.$i18n.locale = this.$i18n.locale =="en"? "es":"en";
     },
+    selectService(serviceCode){
+      this.currentService = this.userMenu.filter((el)=>el.code === serviceCode)[0];
+    }
   },
   setup(){
     const theme = useTheme()

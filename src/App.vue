@@ -1,9 +1,5 @@
 <template>
-  <SideBar
-    :current-service="getCurrentService"
-    :select-service="selectService"
-
-  ></SideBar>
+  <SideBar></SideBar>
   <!-- <BaseFooter></BaseFooter> -->
 </template>
 
@@ -20,39 +16,13 @@ export default {
     currentService:null,
     serviceList:[]
   }),
-  created(){
-      //Consulta de lista de servicios
-      console.log(this)
-      this.getUserServices();
-  },
   computed:{
     getCurrentService(){
       return this.currentService;
     }
   },  
   methods:{
-    getUserServices(){
-      //Se deberia de realizar algun fetch para obtener los servicios asociados al usuario logueado
-      const serviceList = [
-          {
-              "title":"landing",
-              "code":"landing"
-          },
-          {
-              "title":"operations_transactions_title",
-              "code":"optx"
-          },
-
-      ];
-
-      this.serviceList = serviceList;
-      this.currentService = this.serviceList.filter((el) => el.code === "landing")[0];
-
-    },
-    selectService(serviceCode){
-      this.currentService = this.serviceList.filter((el) => el.code === serviceCode)[0];
-      this.$forceUpdate();
-    }
+    
   },
   
 }

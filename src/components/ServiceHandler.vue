@@ -9,6 +9,9 @@
                     @cancel-handler="reloadService('optx')"
                 ></OperationsTransactions>
             </div>
+            <div v-else>
+                Esta pagina aun no esta disponible.
+            </div>
         </div>
     </div>
 </template>
@@ -40,12 +43,11 @@
         },
         mounted(){
             this.getUserServices();
-            console.log('serviceSelected',this.getCurrentService)
         },
         methods:{
             getUserServices(){
-                this.serviceTitle = this.$root.currentService.title;
-                this.serviceSelected =  this.$root.currentService.code;
+                this.serviceTitle = this.currentService.title;
+                this.serviceSelected =  this.currentService.code;
             },
             reloadService(service){
                 this.optxKey ++;
