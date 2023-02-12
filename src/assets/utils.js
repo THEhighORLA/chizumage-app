@@ -1,5 +1,13 @@
 
 export default  {
+    computed: {
+        $t() {
+            return this.$i18n.t;
+        },
+        $n() {
+            return this.$i18n.n;
+        },
+    },
     methods: {
         fetchUri(obj){
             let {

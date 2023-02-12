@@ -66,7 +66,7 @@
             :label="$t('general_comentary')"
             required
           ></v-text-field>
-          <div class="button-container" v-if="!showResul">
+          <div class="button-container" v-if="!showResult">
             <v-btn
               color="success"
               class="me-4"

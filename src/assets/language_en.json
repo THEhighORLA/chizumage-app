@@ -19,6 +19,9 @@
   "general_register":"Register",
   "general_continue":"Continue",
   "general_not_apply":"-",
+  "general_op_success" : "Operation Success",
+  "general_op_error" : "Operacion Error",
+  "general_result_title_error": "Error",
 
   "change_theme": "Change Theme",
   "change_language": "Change Language",
@@ -32,6 +35,9 @@
   "status_processed":"Processed",
 
   "error_field_required":"Field Required",
+
+  "error_operation_transactions_100100":"Insufficient Balance",
+
   
   "usd": {
     "style": "currency",

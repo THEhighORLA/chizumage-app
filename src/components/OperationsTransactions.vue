@@ -1,7 +1,15 @@
 <template>
     <div class="operation-registration" v-if="step == 'reg'">
+
         <div class="col-4"></div>
         <div class="operation-form col-4">
+            <div class="operation-result-alert">
+                <StatusHandler  v-if="showResult"
+                    :status-code="resultStatus"
+                    :rs-handler="rsHandler"
+                    :flow-id="flowId"
+                ></StatusHandler>
+            </div>
             <OperationForm
                 :form-config="formConfig"
                 @form-cancel="cancelHandler"
@@ -67,6 +75,7 @@
     import OperationForm from './OperationForm.vue';
     import VuetiTable from './VuetiTable.vue';
     import utils from '../assets/utils.js';
+    import StatusHandler from './StatusHandler.vue';
 
 
     export default{
@@ -127,7 +136,22 @@
                     "isRequired":true,
                     "defaultValue":''
                 }
-            ]
+            ],
+            resultStatus:'',
+            showResult:false,
+            rsHandler:[
+                {
+                    flowId:'tx',
+                    statusCode:'0',
+                    message:'general_op_success'
+                },
+                {
+                    flowId:'tx',
+                    statusCode:'100100',
+                    message:'error_operation_transactions_100100'
+                }
+            ],
+            flowId:null,
         }),
         computed: {
             $t() {
@@ -271,6 +295,13 @@
                     params,
                     onSuccess:(rs)=>{
                         console.log(rs);
+                        if(rs.status?.statusCode != undefined){
+                            this.flowId = 'tx'
+                            this.showResult = true;
+                            this.resultStatus = rs.status.statusCode;
+                            console.log('rsStatus:',this.resultStatus);
+
+                        }
                     },
                     onError:(error)=>{
                         console.error("Error:",error);
@@ -282,7 +313,7 @@
                 this.$emit("cancel-handler")
             }
         },
-        components: { VuetiTable, OperationForm }
+        components: { VuetiTable, OperationForm, StatusHandler }
     }
 </script>
 
@@ -305,7 +336,10 @@
     display: flex;
 }
 .operation-registration .operation-form{
-    margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.operation-result-alert {
+    margin: 2rem 0px;
 }
 </style>

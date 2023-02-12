@@ -19,12 +19,17 @@
   "general_register":"Registrar",
   "general_continue":"Continuar",
   "general_not_apply":"-",
-
+  "general_op_success" : "Operacion Exitosa",
+  "general_op_error" : "Operacion Fallida",
 
   "change_theme": "Cambiar Tema",
   "change_language": "Cambiar Idioma",
   "goodbye": "Adios",
+
+
   "operations_transactions_title":"Operaciones y Transacciones",
+
+
   "current_language":"ES",
   "register_operation":"Registrar Operacion",
 
@@ -33,6 +38,8 @@
   "status_processed":"Efectuado",
 
   "error_field_required":"Campo Requerido",
+  "error_operation_transactions_100100":"No presenta saldo suficiente para realizar esta operacion",
+
   
   "usd": {
     "style": "currency",
