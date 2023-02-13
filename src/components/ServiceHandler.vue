@@ -1,12 +1,12 @@
 <template>
     <div>
         <div class="service-title">
-            <h1>{{$t(getCurrentService.title)}}</h1>
+            <h1>{{$t(getCurrentService.name)}}</h1>
         </div>
         <div class="service-content">
-            <div v-if="getCurrentService.code == 'optx'" >
+            <div v-if="getCurrentService.code == 100" >
                 <OperationsTransactions :key="optxKey"
-                    @cancel-handler="reloadService('optx')"
+                    @cancel-handler="reloadService(100)"
                 ></OperationsTransactions>
             </div>
             <div v-else>
@@ -46,8 +46,8 @@
         },
         methods:{
             getUserServices(){
-                this.serviceTitle = this.currentService.title;
-                this.serviceSelected =  this.currentService.code;
+                this.serviceTitle = this.getCurrentService.title;
+                this.serviceSelected =  this.getCurrentService.code;
             },
             reloadService(service){
                 this.optxKey ++;
@@ -75,4 +75,11 @@
     .service-body{
         height: 100%;
     }
+
+    /* @media only screen and (max-width: 768px) {
+        .service-title{
+            height: 100%;
+        }
+    
+    } */
 </style>

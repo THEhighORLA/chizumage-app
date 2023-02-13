@@ -7,7 +7,6 @@
           :select-service="selectService"
           :current-service="currentService"
         ></MobileMenu>
-        <BaseFooter></BaseFooter>
       </div>
     </MqResponsive>
     <MqResponsive target="lg+">
@@ -29,6 +28,7 @@
 import {MqResponsive} from 'vue3-mq';
 import { useTheme } from 'vuetify/lib/framework.mjs';
 import BaseFooter from './BaseFooter.vue';
+import utils from '../assets/utils.js';
 
 //Components
 import MobileMenu from './MobileMenu.vue';
@@ -36,6 +36,7 @@ import NormalMenu from './NormalMenu.vue';
 
 
 export default {
+  mixins:[utils],
   name: 'SideBar',
   components:{
     MqResponsive,
@@ -89,29 +90,41 @@ export default {
   created(){
     // * fetch para obtener los servicios
     // this.fetchUri()
-    const dummyData = [
-        {
-          'title': 'operations_transactions_title',
-          'code': 'optx',
-        },
-        {
-          'title': 'landing_page_title',
-          'code': 'landing',
-        },
-    ];
+    // const dummyData = [
+    //     {
+    //       'title': 'operations_transactions_title',
+    //       'code': 'optx',
+    //     },
+    //     {
+    //       'title': 'landing_page_title',
+    //       'code': 'landing',
+    //     },
+    // ];
+    this.selectService(1);
+    this.fetchUri({
+            url: 'cServices',
+            onSuccess: (response) => {
+              
+              this.userMenu = response;
 
-    this.userMenu = dummyData;
+              this.menuConfig = response.map((op)=>{
+                  return {
+                    "id":op.code,
+                    "title":op.name,
+                    "clickHandler":()=>{
+                      this.selectService(op.code);
+                    }
+                  }
+              });
+              
+              
+            },
+            onError: (error) => {
+              console.error("Error:",error);
+            }
+          })
     
-    this.menuConfig = dummyData.map((op)=>{
-      return {
-        "title":this.$t(op.title),
-        "clickHandler":()=>{
-          this.selectService(op.code);
-        }
-      }
-    });
     
-    this.selectService('landing');
     
   },
   methods:{
@@ -122,7 +135,17 @@ export default {
         this.$i18n.locale = this.$i18n.locale =="en"? "es":"en";
     },
     selectService(serviceCode){
-      this.currentService = this.userMenu.filter((el)=>el.code === serviceCode)[0];
+      if(serviceCode == 1){
+        this.currentService = {
+          code:1,
+          name:"landing_title"
+        }
+      }else{
+        this.currentService = this.userMenu.filter(el=>(
+        el.code === serviceCode
+      ))[0];
+      }
+      
     }
   },
   setup(){

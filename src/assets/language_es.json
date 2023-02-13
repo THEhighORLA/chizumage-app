@@ -21,6 +21,9 @@
   "general_not_apply":"-",
   "general_op_success" : "Operacion Exitosa",
   "general_op_error" : "Operacion Fallida",
+  "general_result_title_error": "Error",
+  "general_transaction_list":"Lista de Transacciones",
+
 
   "change_theme": "Cambiar Tema",
   "change_language": "Cambiar Idioma",

@@ -39,15 +39,19 @@
                                 ></v-list-item>
                             </template>
                             <v-list>
-                                <v-list-item
-                                v-for="(ops, index) in op.childServices"
-                                :key="index"
+                                <div
+                                    v-for="(ops, index) in op.childServices" :key="index"
                                 >
-                                <v-list-item-title
-                                    class="dropdown-item"
-                                    @click="makeClick(ops)"
-                                >{{$t(ops.title)}}</v-list-item-title>
-                                </v-list-item>
+                                    <v-list-item 
+                                        
+                                        v-if="ops.id != 1"
+                                    >
+                                    <v-list-item-title  
+                                        class="dropdown-item"
+                                        @click="makeClick(ops)"
+                                    >{{$t(ops.title)}}</v-list-item-title>
+                                    </v-list-item>
+                                </div>
                             </v-list>
                         </v-menu>
                     </div>
@@ -108,6 +112,7 @@
                     this.rail = true;
                 }
             });
+            
         },
         methods:{
             toggleLocation(){

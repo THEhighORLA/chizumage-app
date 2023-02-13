@@ -56,15 +56,24 @@
             >{{$t('register_operation')}}</v-btn>
         </div>
         <div class="transaction-table">
-            <div class="col2"></div>
-            <div class="col10">
-                <VuetiTable v-if="tableSource.length > 0"
+            <div class="col-1"></div>
+            <div class="col-10">
+                <MqResponsive target="md-">
+                    <MobileTable v-if="tableSource.length > 0"
+                        :title="'general_transaction_list'"
+                        :headers="tableFields"
+                        :source="tableSource"
+                    ></MobileTable>
+                </MqResponsive>
+                <MqResponsive target="lg+">
+                    <VuetiTable v-if="tableSource.length > 0"
                     :headers="tableFields"
                     :source="tableSource"
-                ></VuetiTable>
+                    ></VuetiTable>
+                </MqResponsive>
             </div>
             
-            <div class="col2"></div>
+            <div class="col-1"></div>
         </div>
     </div>
     
@@ -74,9 +83,12 @@
 <script>
     import OperationForm from './OperationForm.vue';
     import VuetiTable from './VuetiTable.vue';
+    
     import utils from '../assets/utils.js';
     import StatusHandler from './StatusHandler.vue';
 
+    import {MqResponsive} from 'vue3-mq';
+import MobileTable from './MobileTable.vue';
 
     export default{
         mixins:[utils],
@@ -313,7 +325,7 @@
                 this.$emit("cancel-handler")
             }
         },
-        components: { VuetiTable, OperationForm, StatusHandler }
+        components: { VuetiTable, OperationForm, StatusHandler, MqResponsive, MobileTable }
     }
 </script>
 
@@ -341,5 +353,23 @@
 
 .operation-result-alert {
     margin: 2rem 0px;
+}
+
+.transaction-table{
+    display: flex;
+}
+
+@media only screen and (max-width: 768px) {
+    .product-card.col-4{
+        width: 100%;
+        float: left;
+    }
+    .transaction-table{
+        width: 100%;
+        overflow-x: scroll;
+    }
+    .operation-registration .operation-form {
+        width: 100%;
+    }
 }
 </style>

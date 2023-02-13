@@ -171,4 +171,14 @@
   .button-container {
       margin: 2rem;
   }
+
+  @media only screen and (max-width: 768px) {
+    .button-container {
+      margin: 1rem 0rem;
+    }
+    .button-container button{
+      margin: 1rem 0rem;
+      width: 100%;
+    }
+}
 </style>

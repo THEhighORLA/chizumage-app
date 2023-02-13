@@ -22,6 +22,8 @@
   "general_op_success" : "Operation Success",
   "general_op_error" : "Operacion Error",
   "general_result_title_error": "Error",
+  "general_transaction_list":"Transactions List",
+
 
   "change_theme": "Change Theme",
   "change_language": "Change Language",

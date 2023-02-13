@@ -4,7 +4,7 @@
       <!-- <v-system-bar color="deep-purple darken-3"></v-system-bar> -->
 
       <v-app-bar
-        color="primary"
+        color="dark"
         prominent
       >
         <v-list>
@@ -12,9 +12,6 @@
               prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
           ></v-list-item>
         </v-list> 
-        
-
-        <v-toolbar-title>{{$t("operations_transactions_title")}}</v-toolbar-title>
 
         <v-spacer></v-spacer>
         <div  v-for="(op,index) in menuOptions" :key="index">
@@ -40,12 +37,19 @@
         temporary
       >
         <v-list
-          :items="items"
-        ></v-list>
+          v-for="(item,index) in items"
+          :key="index"
+        >
+          <v-list-item
+            @click.prevent="makeClick(item)"
+          >{{$t(item.title)}}</v-list-item>
+        </v-list>
       </v-navigation-drawer>
 
-      <v-main style="height: 500px;">
-        <ServiceHandler></ServiceHandler>
+      <v-main>
+        <ServiceHandler
+          :current-service="currentService"
+        ></ServiceHandler>
       </v-main>
     </v-layout>
   </v-card>
@@ -56,9 +60,15 @@ import ServiceHandler from './ServiceHandler.vue';
  export default {
     props:{  
       menuOptions:{
-        type:Array,
-        default:()=>([])
-      }
+          type:Array,
+          default:()=>([])
+      },
+      currentService:{
+          type:Array
+      },
+      selectService:{
+          type:Function
+      },
     },
     components:{
       ServiceHandler
@@ -68,9 +78,12 @@ import ServiceHandler from './ServiceHandler.vue';
       group: null,
       items: [
       ],
-      currentService:""
     }),
-
+    computed:{
+      $t() {
+        return this.$i18n.t
+      }
+    },
     watch: {
       group () {
         this.drawer = false
@@ -80,6 +93,13 @@ import ServiceHandler from './ServiceHandler.vue';
       drawerHandler(itemList){
         this.items = itemList
         this.drawer = !this.drawer;
+      },
+      titleHandler(op){
+          return typeof op.title == 'function'?op.title():op.title
+      },
+      makeClick(op){
+        this.rail = true;
+        op.clickHandler();
       }
     }
   }

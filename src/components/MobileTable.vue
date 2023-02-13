@@ -1,34 +1,38 @@
 <template>
-  <div>
-    <table class="vuetitable" :class="$vuetify.theme.name">
-      <thead>
-        <tr>
-          <th v-for="header in headers" :key="header.value">{{ $t(header.text) }}</th>
-          <th v-show="buttons.length > 0">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item, rowIdx) in currentPageData" :key="item.id">
-          <td v-for="(header) in headers" :key="header.value" v-html="getRowValue(item[header.name], header.name, rowIdx)"></td>
-          <td v-show="buttons.length > 0">
-            <button v-for="button in buttons" :key="button.text" @click="button.action(item)">
-              {{ button.text }}
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="pagination-container">
-      <button @click="previosPage" :disabled="currentPage === 1"><div class="mdi-chevron-left mdi v-icon notranslate v-icon--size-default"></div></button>
-      <span>{{ currentPage }} / {{ totalPages }}</span>
-      <button @click="nextPage" :disabled="currentPage === totalPages"><div class="mdi-chevron-right mdi v-icon notranslate v-icon--size-default"></div></button>
+    <div class="mobile-table">
+        <div class="table-top">
+            <h2 class="table-title">{{$t(title)}}</h2>
+        </div>
+        <div class="vuetitable-mobile" :class="$vuetify.theme.name">
+            <div class="row" v-for="(item, rowIdx) in currentPageData" :key="item.id">
+                <div v-for="(header) in headers" :key="header.value" class="row-data-pair">
+                    <div class="row-title">{{$t(header.text)}}</div>
+                    <div class="row-value" v-html="getRowValue(item[header.name], header.name, rowIdx)"></div>
+                </div>
+                <td v-show="buttons.length > 0">
+                    <button v-for="button in buttons" :key="button.text" @click="button.action(item)">
+                    {{ button.text }}
+                    </button>
+                </td>
+            </div>
+        </div>  
+        <div class="pagination-container">
+            <div class="col-4"></div>
+            <div class="pagination-item col-1" @click="previosPage" :disabled="currentPage === 1"><div class="mdi-chevron-left mdi v-icon notranslate v-icon--size-default"></div></div>
+            <span class="pagination-item col-2" >{{ currentPage }} / {{ totalPages }}</span>
+            <div class="pagination-item col-1" @click="nextPage" :disabled="currentPage === totalPages"><div class="mdi-chevron-right mdi v-icon notranslate v-icon--size-default"></div></div>
+            <div class="col-4"></div>
+        </div>
     </div>
-  </div>
-</template>
+  </template>
 
+  
 <script>
 export default {
   props: {
+    title:{
+        type: String,
+    },
     headers: {
       type: Array,
       required: true
@@ -116,74 +120,87 @@ export default {
     },
     previosPage(){
       this.currentPage--;
+      this.backToTop();
     },
     nextPage(){
       this.currentPage++;
+      this.backToTop();
+    },
+    backToTop(){
+        this.$nextTick(()=>{
+            document.querySelector('.table-top').scrollIntoView();
+        })
     }
   }
 }
 </script>
 
 <style>
-  table {
+html {
+    scroll-behavior: smooth;
+}
+.mobile-table{
+    margin: 3rem 0rem;
+}
+.vuetitable-mobile {
     margin-top: 25px;
     width: 100%;
     border-collapse: collapse;
     color: #333;
-  }
+    background-color: #111;/**#0f9c00 */
+}
 
-  table.dark{
+.vuetitable-mobile.dark{
     color: #fff;
   }
 
-th {
-  background-color: #0f9c00;
-  color: #fff;
-  font-weight: bold;
-  padding: 10px;
-  text-align: left;
+.row{
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    
+}
+.row-data-pair{
+    width: 100%;
+    display: flex;
 }
 
-td {
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
+.row-title,.row-value{
+    padding: 1rem;
 }
 
-table.dark tr:nth-child(even) {
+.row-title{
+    font-weight: bold;
+    font-size: 1rem;
+    width: 40%;
+}
+
+.row-value{
+    font-size: 1rem;
+    width: 60%;
+}
+
+.vuetitable-mobile.dark .row:nth-child(even) {
   background-color: #555;
 }
 
-table.light tr:nth-child(even) {
+.vuetitable-mobile.light .row:nth-child(even) {
   background-color: #e4e4e4;
 }
-
-button {
-  background-color: #0f9c00;
+.pagination-container{
+    margin-top: 1rem;
+    display: flex;
+    width: 100%;
+    float: left;
+}
+.pagination-item {
   color: #fff;
-  padding: 5px 10px;
   border: none;
   cursor: pointer;
-  margin-right: 5px;
 }
 
-button:hover {
+.pagination-item:hover {
   background-color: #333;
 }
 
-@media only screen and (max-width: 768px) {
-  table {
-      width: 100%;
-    }
-    th, td {
-      display: block;
-    }
-    th {
-      display: none;
-    }
-    td {
-      border: none;
-      border-bottom: 1px solid #ddd;
-    }
 
-}
 </style>
