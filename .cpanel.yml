@@ -1,0 +1,8 @@
+---
+deployments:
+  - destination: /home/$USER/public_html # Replace USERNAME with your cPanel username and public_html with your document root
+    source: /
+    exclude:
+      - node_modules/
+    plugin:
+      - NodeVersion: v18.13.0 # Replace this with the version of Node.js you want to use
