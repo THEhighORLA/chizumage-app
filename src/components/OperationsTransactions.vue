@@ -1,83 +1,83 @@
 <template>
-    <div class="operation-registration" v-if="step == 'reg'">
+    <div>
+        <div class="operation-registration" v-if="step == 'reg'">
 
-        <div class="col-4"></div>
-        <div class="operation-form col-4">
-            <div class="operation-result-alert">
-                <StatusHandler  v-if="showResult"
-                    :status-code="resultStatus"
-                    :rs-handler="rsHandler"
-                    :flow-id="flowId"
-                ></StatusHandler>
+            <div class="col-4"></div>
+            <div class="operation-form col-4">
+                <div class="operation-result-alert">
+                    <StatusHandler  v-if="showResult"
+                        :status-code="resultStatus"
+                        :rs-handler="rsHandler"
+                        :flow-id="flowId"
+                    ></StatusHandler>
+                </div>
+                <OperationForm
+                    :form-config="formConfig"
+                    @form-cancel="cancelHandler"
+                    @form-continue="regContinue"
+                ></OperationForm>
             </div>
-            <OperationForm
-                :form-config="formConfig"
-                @form-cancel="cancelHandler"
-                @form-continue="regContinue"
-            ></OperationForm>
+            <div class="col-4"></div>
         </div>
-        <div class="col-4"></div>
-    </div>
-    <div class="operation-list" v-else>
-        <div class="product-group">
-            <div class="product-card col-4" v-for="(card,idx) in cardConfig" :key="idx">
-                <v-card variant="tonal"
-                >
-                    <v-card-title class="product-card-title">{{card.product}}</v-card-title>
-                    <v-divider></v-divider>
-                    <v-card-subtitle>{{card.user}}</v-card-subtitle>
-                    <v-card-item>{{formatMoney(card.value)}}</v-card-item>
-                </v-card>
+        <div class="operation-list" v-else>
+            <div class="product-group">
+                <div class="product-card col-4" v-for="(card,idx) in cardConfig" :key="idx">
+                    <v-card variant="tonal"
+                    >
+                        <v-card-title class="product-card-title">{{card.product}}</v-card-title>
+                        <v-divider></v-divider>
+                        <v-card-subtitle>{{card.user}}</v-card-subtitle>
+                        <v-card-item>{{formatMoney(card.value)}}</v-card-item>
+                    </v-card>
+                </div>
             </div>
-        </div>
-        <div class="add-info-panel col-12">
-            <div class="col-2"></div>
-            <div class="col-8">
-                <v-expansion-panels>
-                    <v-expansion-panel>
-                        <v-expansion-panel-title class="expansion-panel-title">{{$t("general_validation_info")}}</v-expansion-panel-title>
-                        <v-expansion-panel-text>
-                            <v-list>
-                                <v-list-item v-for="(info,idx) in additionalInfo" :key="idx">
-                                    <v-list-item-title>{{info.title}}</v-list-item-title>
-                                    <v-list-item-subtitle>{{info.subtitle}}</v-list-item-subtitle>
-                                </v-list-item>
-                            </v-list>
-                        </v-expansion-panel-text>
-                    </v-expansion-panel>
-                </v-expansion-panels>
+            <div class="add-info-panel col-12">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <v-expansion-panels>
+                        <v-expansion-panel>
+                            <v-expansion-panel-title class="expansion-panel-title">{{$t("general_validation_info")}}</v-expansion-panel-title>
+                            <v-expansion-panel-text>
+                                <v-list>
+                                    <v-list-item v-for="(info,idx) in additionalInfo" :key="idx">
+                                        <v-list-item-title>{{info.title}}</v-list-item-title>
+                                        <v-list-item-subtitle>{{info.subtitle}}</v-list-item-subtitle>
+                                    </v-list-item>
+                                </v-list>
+                            </v-expansion-panel-text>
+                        </v-expansion-panel>
+                    </v-expansion-panels>
+                </div>
+                <div class="col-2"></div>
             </div>
-            <div class="col-2"></div>
-        </div>
-        <div class="register-container">
-            <v-btn
-                class="success"
-                @click.prevent="step='reg'"
-            >{{$t('register_operation')}}</v-btn>
-        </div>
-        <div class="transaction-table">
-            <div class="col-1"></div>
-            <div class="col-10">
-                <MqResponsive target="md-">
-                    <MobileTable v-if="tableSource.length > 0"
-                        :title="'general_transaction_list'"
+            <div class="register-container">
+                <v-btn
+                    class="success"
+                    @click.prevent="step='reg'"
+                >{{$t('register_operation')}}</v-btn>
+            </div>
+            <div class="transaction-table">
+                <div class="col-1"></div>
+                <div class="col-10">
+                    <MqResponsive target="md-">
+                        <MobileTable v-if="tableSource.length > 0"
+                            :title="'general_transaction_list'"
+                            :headers="tableFields"
+                            :source="tableSource"
+                        ></MobileTable>
+                    </MqResponsive>
+                    <MqResponsive target="lg+">
+                        <VuetiTable v-if="tableSource.length > 0"
                         :headers="tableFields"
                         :source="tableSource"
-                    ></MobileTable>
-                </MqResponsive>
-                <MqResponsive target="lg+">
-                    <VuetiTable v-if="tableSource.length > 0"
-                    :headers="tableFields"
-                    :source="tableSource"
-                    ></VuetiTable>
-                </MqResponsive>
+                        ></VuetiTable>
+                    </MqResponsive>
+                </div>
+                
+                <div class="col-1"></div>
             </div>
-            
-            <div class="col-1"></div>
         </div>
     </div>
-    
-    
 </template>
 
 <script>
